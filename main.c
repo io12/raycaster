@@ -6,44 +6,18 @@
 double fov = 2;
 double pX = 2, pY = 2;
 double pAngle = 0;
+bool lantern = 0;
+bool hudON = 0;
+bool crosshairsON = 1;
 
-int main() {
+int main(int argc, char* argv[]) {
 	init_raycaster();
 	// gameloop starts here
 	while(1) {
-		gen_frame(pY, pX, pAngle, MAPLENGTH, map);
+		gen_frame();
 		// print the frame
 		refresh();
-		// get input
-		switch (getch()) {
-			case KEY_UP:
-				// collision checking
-				if (!map[(int) (pY + sin(pAngle+0.5*M_PI) * P_MV_FACTOR)][(int) (pX + cos(pAngle+0.5*M_PI) * P_MV_FACTOR)]) {
-					pX += cos(pAngle+fov) * P_MV_FACTOR;
-					pY += sin(pAngle+fov) * P_MV_FACTOR;
-				}
-				break;
-			case KEY_DOWN:
-				if (!map[(int) (pY - sin(pAngle+0.5*M_PI) * P_MV_FACTOR)][(int) (pX - cos(pAngle+0.5*M_PI) * P_MV_FACTOR)]) {
-					pX -= cos(pAngle+fov) * P_MV_FACTOR;
-					pY -= sin(pAngle+fov) * P_MV_FACTOR;
-				}
-				break;
-			case KEY_RIGHT:
-				pAngle += M_PI / 36;
-				break;
-			case KEY_LEFT:
-				pAngle -= M_PI / 36;
-				break;
-			case '1':
-				fov += M_PI / 90;
-				break;
-			case '2':
-				fov -= M_PI / 90;
-				break;
-			default:
-				break;
-		}
+		get_input();
 	}
 	endwin();
 	return 0;
@@ -132,6 +106,64 @@ void gen_frame() {
 			attron(COLOR_PAIR(1));
 		}
 	}
-	// update coords
-	mvprintw(0, 0, "%d.%d, %d.%d", (int) pX, (int) (pX * 10) % 10, (int) pY, (int) (pY * 10) % 10);
+	// update hud
+	if (hudON) {
+		mvprintw(0, 0, "coords: %f, %f", pX, pY);
+		mvprintw(1, 0, "angle: %f rad", pAngle);
+		mvprintw(2, 0, "fov: %f rad", fov);
+	}
+	if (crosshairsON) {
+		mvaddch(LINES - LINES / 2 - 1, COLS - COLS / 2, ACS_VLINE);
+		mvaddch(LINES - LINES / 2, COLS - COLS / 2 - 2, ACS_HLINE);
+		mvaddch(LINES - LINES / 2, COLS - COLS / 2 - 1, ACS_HLINE);
+		mvaddch(LINES - LINES / 2, COLS - COLS / 2, ACS_PLUS);
+		mvaddch(LINES - LINES / 2, COLS - COLS / 2 + 1, ACS_HLINE);
+		mvaddch(LINES - LINES / 2, COLS - COLS / 2 + 2, ACS_HLINE);
+		mvaddch(LINES - LINES / 2 + 1, COLS - COLS / 2, ACS_VLINE);
+	}
+}
+
+void get_input() {
+	switch (getch()) {
+		case KEY_UP:
+			// collision checking
+			if (!map[(int) (pY + sin(pAngle+fov) * P_MV_FACTOR)][(int) (pX + cos(pAngle+fov) * P_MV_FACTOR)]) {
+				pX += cos(pAngle+fov) * P_MV_FACTOR;
+				pY += sin(pAngle+fov) * P_MV_FACTOR;
+			}
+			break;
+		case KEY_DOWN:
+			if (!map[(int) (pY - sin(pAngle+fov) * P_MV_FACTOR)][(int) (pX - cos(pAngle+fov) * P_MV_FACTOR)]) {
+				pX -= cos(pAngle+fov) * P_MV_FACTOR;
+				pY -= sin(pAngle+fov) * P_MV_FACTOR;
+			}
+			break;
+		case KEY_RIGHT:
+			pAngle += M_PI / 36;
+			break;
+		case KEY_LEFT:
+			pAngle -= M_PI / 36;
+			break;
+		case '1':
+			fov += M_PI / 90;
+			break;
+		case '2':
+			fov -= M_PI / 90;
+			break;
+		case '3':
+			hudON--;
+			break;
+		case '4':
+			crosshairsON--;
+			break;
+		default:
+			break;
+	}
+}
+
+void read_map(const char* filename) {
+	fp = fopen(filename, "r");
+	fseek(fp, 0, SEEK_END);
+	fsize = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
 }

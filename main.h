@@ -24,4 +24,6 @@ void init_raycaster();
 
 void gen_frame();
 
+void get_input();
+
 #endif
