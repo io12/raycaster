@@ -26,4 +26,8 @@ void gen_frame();
 
 void get_input();
 
+void read_map(char* filename);
+
+void quit(int status, char* message);
+
 #endif

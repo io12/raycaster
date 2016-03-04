@@ -1,5 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 #include <math.h>
 #include <curses.h>
+#include <error.h>
 
 #include "main.h"
 
@@ -7,11 +11,12 @@ double fov = 2;
 double pX = 2, pY = 2;
 double pAngle = 0;
 bool lantern = 0;
-bool hudON = 0;
+bool hudON = 1;
 bool crosshairsON = 1;
 
 int main(int argc, char* argv[]) {
 	init_raycaster();
+	read_map("example.map");
 	// gameloop starts here
 	while(1) {
 		gen_frame();
@@ -161,9 +166,34 @@ void get_input() {
 	}
 }
 
-void read_map(const char* filename) {
-	fp = fopen(filename, "r");
-	fseek(fp, 0, SEEK_END);
-	fsize = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
+void read_map(char* filename) {
+	FILE* fp = fopen(filename, "r");
+	if (fp) {
+		fseek(fp, 0, SEEK_END);
+		const long fsize = ftell(fp);
+		rewind(fp);
+		char ch;
+		int lines = 0;
+		for (int i = 0; i < fsize; i++) {
+			ch = fgetc(fp);
+			if (ch == EOF)
+				break;
+			if (ch == '\n')
+				lines++;
+			else if (!isdigit(ch))
+				quit(1, "map file is in incorrect format");
+
+		}
+		fclose(fp);
+		int* map[] = malloc(sizeof(int) * fsize);
+	}
+	else
+		quit(1, "Error reading map file");
+}
+
+void quit(int status, char* message) {
+	endwin();
+	if (status)
+		error(1, 0, message);
+	exit(0);
 }
