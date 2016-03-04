@@ -3,7 +3,8 @@
 #include <ctype.h>
 #include <math.h>
 #include <curses.h>
-//#include <error.h>
+#include <error.h>
+#include <assert.h>
 
 #include "main.h"
 
@@ -176,14 +177,28 @@ void read_map(char* filename) {
 		int lines = 0;
 		for (int i = 0; i < fsize; i++) {
 			ch = fgetc(fp);
-			if (ch == EOF)
-				break;
 			if (ch == '\n')
 				lines++;
 			else if (!isdigit(ch))
 				quit(1, "map file is in incorrect format");
 		}
-		int* map[lines];// = malloc(sizeof(int) * fsize);
+		rewind(fp);
+		++lines;
+		int* map[lines];
+		for (int i = 0; i < lines; i++)
+			map[i] = malloc(0);
+		for (int i = 0, j = 0; j < lines; i++) {
+			ch = fgetc(fp);
+			if (ch == '\n') {
+				++j;
+				i = 0;
+			}
+			else {
+				map[j] = realloc(map[j], sizeof(int) * i);
+				map[j][i] = (int) ch - 48;
+			}
+
+		}
 		fclose(fp);
 	}
 	else
@@ -193,6 +208,6 @@ void read_map(char* filename) {
 void quit(int status, char* message) {
 	endwin();
 	if (status)
-		//error(1, 0, message);
+		error(1, 0, message);
 	exit(status);
 }

@@ -1,10 +1,10 @@
-CC=gcc
-CFLAGS="-g -Wall -std=gnu99"
-LDLIBS="-lm -lncurses"
+CC = gcc
+CFLAGS = -g -Wall -std=gnu99
+LDLIBS = -lm -lncurses
 
-main.c: exe.out
+.PHONY: all clean
 
-all: exe.out
+all: main
 
 clean:
-	rm -f exe.out
+	rm -f main
