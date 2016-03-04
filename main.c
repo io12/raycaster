@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <curses.h>
-#include <error.h>
+//#include <error.h>
 
 #include "main.h"
 
@@ -182,10 +182,9 @@ void read_map(char* filename) {
 				lines++;
 			else if (!isdigit(ch))
 				quit(1, "map file is in incorrect format");
-
 		}
+		int* map[lines];// = malloc(sizeof(int) * fsize);
 		fclose(fp);
-		int* map[] = malloc(sizeof(int) * fsize);
 	}
 	else
 		quit(1, "Error reading map file");
@@ -194,6 +193,6 @@ void read_map(char* filename) {
 void quit(int status, char* message) {
 	endwin();
 	if (status)
-		error(1, 0, message);
-	exit(0);
+		//error(1, 0, message);
+	exit(status);
 }

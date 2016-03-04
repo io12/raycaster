@@ -1,4 +1,10 @@
-all:
-	gcc -g -Wall -std=gnu99 main.c -o exe.out -lncurses -lm
+CC=gcc
+CFLAGS="-g -Wall -std=gnu99"
+LDLIBS="-lm -lncurses"
+
+main.c: exe.out
+
+all: exe.out
+
 clean:
-	rm -f main
+	rm -f exe.out
