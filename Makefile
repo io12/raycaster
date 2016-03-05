@@ -4,6 +4,8 @@ LDLIBS = -lm -lncurses
 
 .PHONY: all clean
 
+ncaster: ncaster.c input.c | ncaster.h
+
 all: main
 
 clean:
