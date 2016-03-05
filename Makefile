@@ -4,9 +4,10 @@ LDLIBS = -lm -lncurses
 
 .PHONY: all clean
 
-ncaster: ncaster.c input.c | ncaster.h
+ncaster.out: $(wildcard src/*.c) | $(wildcard src/*.h)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
-all: main
+all: ncaster.out
 
 clean:
-	rm -f main
+	rm -f $(wildcard *.out)

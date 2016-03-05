@@ -1,5 +1,5 @@
-#ifndef _MAIN_
-#define _MAIN_
+#ifndef _NCASTER_
+#define _NCASTER_
 
 #define MAPLENGTH 10
 #define R_JMP_FACTOR 0.1
@@ -24,12 +24,6 @@ struct ray {
 };
 
 void init_raycaster();
-
-void gen_frame(struct player p);
-
-struct player get_input(struct player p);
-
-struct player read_map(char* filename);
 
 void quit(char* message);
 
