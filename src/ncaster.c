@@ -22,8 +22,6 @@ int main(int argc, char* argv[]) {
 		if (p.quit)
 			break;
 	}
-	// need to free
-	free(p.map);
 	quit("EXITED");;
 }
 

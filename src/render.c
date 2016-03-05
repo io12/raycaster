@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "ncaster.h"
+#include "render.h"
 
 void gen_frame(struct player p) {
 	struct ray r;
@@ -13,12 +14,19 @@ void gen_frame(struct player p) {
 		r.distance = 0;
 		while(1) {
 			r.angle = ((p.fov / 2) + p.angle) + (ic * (p.fov / COLS));
-			r.x += cos(r.angle) * R_JMP_FACTOR;
-			r.y += sin(r.angle) * R_JMP_FACTOR;
-			r.distance += R_JMP_FACTOR;
+			r.x += cos(r.angle) * R_JMP;
+			r.y += sin(r.angle) * R_JMP;
+			r.distance += R_JMP;
+
+			// vision distance
+			if (r.distance > 10) {
+				r.status = -1;
+				break;
+			}
+
 			// check if ray hit a wall
 			r.status = p.map[(int) r.y][(int) r.x];
-			if (r.status)
+			if (r.status != 0)
 				break;
 		}
 		// create a column
@@ -51,7 +59,7 @@ void gen_frame(struct player p) {
 				default:
 					break;
 			}
-			if ((ir < f) || (ir > (f + h))) {
+			if ((ir < f) || (ir > (f + h)) || r.status == -1) {
 				mvaddch(ir, ic, ' ');
 			}
 			else if (r.distance < 2) {

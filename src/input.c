@@ -2,6 +2,7 @@
 #include <math.h>
 
 #include "ncaster.h"
+#include "input.h"
 
 struct player get_input(struct player p) {
 	switch (getch()) {
@@ -10,15 +11,15 @@ struct player get_input(struct player p) {
 			break;
 		case KEY_UP:
 			// collision checking
-			if (!p.map[(int) (p.y + sin(p.angle+p.fov) * P_MV_FACTOR)][(int) (p.x + cos(p.angle+p.fov) * P_MV_FACTOR)]) {
-				p.x += cos(p.angle+p.fov) * P_MV_FACTOR;
-				p.y += sin(p.angle+p.fov) * P_MV_FACTOR;
+			if (!p.map[(int) (p.y + sin(p.angle+p.fov) * P_MV)][(int) (p.x + cos(p.angle+p.fov) * P_MV)]) {
+				p.x += cos(p.angle+p.fov) * P_MV;
+				p.y += sin(p.angle+p.fov) * P_MV;
 			}
 			break;
 		case KEY_DOWN:
-			if (!p.map[(int) (p.y - sin(p.angle+p.fov) * P_MV_FACTOR)][(int) (p.x - cos(p.angle+p.fov) * P_MV_FACTOR)]) {
-				p.x -= cos(p.angle+p.fov) * P_MV_FACTOR;
-				p.y -= sin(p.angle+p.fov) * P_MV_FACTOR;
+			if (!p.map[(int) (p.y - sin(p.angle+p.fov) * P_MV)][(int) (p.x - cos(p.angle+p.fov) * P_MV)]) {
+				p.x -= cos(p.angle+p.fov) * P_MV;
+				p.y -= sin(p.angle+p.fov) * P_MV;
 			}
 			break;
 		case KEY_RIGHT:
