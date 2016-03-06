@@ -1,17 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
+#include <string.h>
 
 #include "ncaster.h"
 #include "input.h"
 #include "parse.h"
 #include "render.h"
+#include "gen_maze.h"
 
 int main(int argc, char* argv[]) {
 	init_raycaster();
 	if (argc != 2)
-		quit("Incorrect amount of arguments. Need to specify a map file.");
-	struct player p = parse_map(argv[1]);
+		quit("Incorrect amount of arguments. Need to specify a map.");
+	struct player p;
+	if (strcmp(argv[1], "-r") == 0) {
+		p = gen_maze(21, 21);
+	}
+	else {
+		p = parse_map(argv[1]);
+	}
 	p.quit = 0;
 	// gameloop starts here
 	while(1) {

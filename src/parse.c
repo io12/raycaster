@@ -8,10 +8,10 @@
 struct player parse_map(char* filename) {
 	// initialize some values
 	struct player p;
-	p.fov = 2;
+	p.fov = FOV_DEFAULT;
 	p.lantern = 1;
 	p.hud = 1;
-	p. crosshairs = 1;
+	p.crosshairs = 1;
 
 	// open file
 	FILE* fp = fopen(filename, "r");
@@ -58,6 +58,8 @@ struct player parse_map(char* filename) {
 		quit("The player can't start outside the map");
 	fseek(fp, 4, SEEK_SET);
 	p.map = (int**) malloc(lines * sizeof(int*));
+	for (int i = 0; i < lines; i++)
+		p.map[i] = (int*) malloc(sizeof(int) * cols);
 	for (int i = 0, j = 0; j < lines;) {
 		ch = fgetc(fp);
 		if ((j == 0 || j == lines - 1 || i == 0) && ch == '0')
@@ -73,7 +75,6 @@ struct player parse_map(char* filename) {
 			i = 0;
 		}
 		else {
-			p.map[j] = (int*) realloc(p.map[j], sizeof(int) * (i + 1));
 			p.map[j][i] = (int) ch - 48;
 			i++;
 		}
