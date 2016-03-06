@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <curses.h>
-#include <string.h>
+#include <unistd.h>
 
 #include "ncaster.h"
 #include "input.h"
@@ -10,12 +10,27 @@
 #include "gen_maze.h"
 
 int main(int argc, char* argv[]) {
-	// get a map as an argument
-	if (argc != 2)
-		quit("Incorrect amount of arguments. Need to specify a map.");
+	// parse arguments
+	struct flags f;
+	f.random = 0;
+	f.color = 0;
+	while ((f.opt = getopt(argc, argv, "r::c")) != -1) {
+		switch (f.opt) {
+			case 'r':
+				f.random = 1;
+				break;
+			case 'c':
+				f.color = 1;
+				break;
+			default:
+				quit("Invalid argument");
+		}
+	}
+
+	// load a map based on the arguments
 	struct player p;
-	if (strcmp(argv[1], "-r") == 0)
-		p = gen_maze(21, 21);
+	if (f.random)
+		p = gen_maze(21, 21, f.color);
 	else
 		p = parse_map(argv[1]);
 
@@ -53,6 +68,7 @@ void init_raycaster() {
 }
 
 void quit(char* message) {
+	// TODO: add errors
 	endwin();
 	printf(message);
 	printf("\n");

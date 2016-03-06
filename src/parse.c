@@ -29,6 +29,7 @@ struct player parse_map(char* filename) {
 	char prev_ch;
 
 	// get coordinates
+	// TODO: allow multi-digit coords
 	ch = fgetc(fp);
 	if (!isdigit(ch))
 		quit("Incorrect format. Coordinates have to be digits.");

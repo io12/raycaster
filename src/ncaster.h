@@ -17,6 +17,12 @@ struct player {
 	bool quit;
 };
 
+struct flags {
+	bool random;
+	bool color;
+	char opt;
+};
+
 void init_raycaster();
 
 void quit(char* message);

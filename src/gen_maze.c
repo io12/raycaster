@@ -5,14 +5,14 @@
 #include "ncaster.h"
 #include "stack.h"
 
-struct player gen_maze(const int x, const int y) {
+struct player gen_maze(const int x, const int y, const bool color) {
 	s.top = -1;
-	srand(time(NULL));
 	struct player p;
 	p.fov = FOV_DEFAULT;
 	p.lantern = 1;
 	p.hud = 1;
 	p.crosshairs = 1;
+	srand(time(NULL));
 
 	// can increase fault tolerance
 	// create mapspace
@@ -24,7 +24,10 @@ struct player gen_maze(const int x, const int y) {
 	// set every value of map to 1
 	for (int i = 0; i < y; i++)
 		for (int j = 0; j < x; j++)
-			p.map[i][j] = 1;
+			if (color)
+				p.map[i][j] = rand() % 7 + 1;
+			else
+				p.map[i][j] = 1;
 
 	// pick a starting cell
 	int cx = ((rand() % (x - 1) / 2) + 1) * 2 - 1;
@@ -38,19 +41,19 @@ struct player gen_maze(const int x, const int y) {
 	while (visited < (((y - 1) / 2) * ((x - 1) / 2))) {
 		// get the amount of unvisited neighbours
 		nb = 0;
-		if (cy != 1 && p.map[cy - 2][cx] == 1) {
+		if (cy != 1 && p.map[cy - 2][cx] != 0) {
 			dirs[nb] = 1;
 			nb++;
 		}
-		if (cy != (y - 2) && p.map[cy + 2][cx] == 1) {
+		if (cy != (y - 2) && p.map[cy + 2][cx] != 0) {
 			dirs[nb] = 2;
 			nb++;
 		}
-		if (cx != 1 && p.map[cy][cx - 2] == 1) {
+		if (cx != 1 && p.map[cy][cx - 2] != 0) {
 			dirs[nb] = 3;
 			nb++;
 		}
-		if (cx != (x - 2) && p.map[cy][cx + 2] == 1) {
+		if (cx != (x - 2) && p.map[cy][cx + 2] != 0) {
 			dirs[nb] = 4;
 			nb++;
 		}
