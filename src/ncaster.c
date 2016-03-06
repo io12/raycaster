@@ -10,18 +10,19 @@
 #include "gen_maze.h"
 
 int main(int argc, char* argv[]) {
-	init_raycaster();
+	// get a map as an argument
 	if (argc != 2)
 		quit("Incorrect amount of arguments. Need to specify a map.");
 	struct player p;
-	if (strcmp(argv[1], "-r") == 0) {
+	if (strcmp(argv[1], "-r") == 0)
 		p = gen_maze(21, 21);
-	}
-	else {
+	else
 		p = parse_map(argv[1]);
-	}
+
+	init_raycaster();
 	p.quit = 0;
-	// gameloop starts here
+
+	// gameloop
 	while(1) {
 		gen_frame(p);
 		// print the frame
