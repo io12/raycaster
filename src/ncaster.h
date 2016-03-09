@@ -14,17 +14,16 @@ struct player {
 	bool lantern;
 	bool hud;
 	bool crosshairs;
-	bool quit;
 };
 
 struct flags {
+	char opt;
 	bool random;
 	bool color;
-	char opt;
 };
 
 void init_raycaster();
 
-void quit(char* message);
+void quit(int status, char* message, ...);
 
 #endif

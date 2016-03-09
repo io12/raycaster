@@ -7,7 +7,7 @@
 struct player get_input(struct player p) {
 	switch (getch()) {
 		case 'q':
-			p.quit = 1;
+			quit(0, "");
 			break;
 		case KEY_UP:
 			// collision checking

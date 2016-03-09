@@ -16,13 +16,13 @@ struct player parse_map(char* filename) {
 	// open file
 	FILE* fp = fopen(filename, "r");
 	if (!fp)
-		quit("File does not exist");
+		quit(1, "");
 
 	// get size of file
 	fseek(fp, 0, SEEK_END);
 	const long fsize = ftell(fp) - 4;
 	if (fsize < 11)
-		quit("Map file too small");
+		quit(1, "Map file too small");
 	rewind(fp);
 
 	char ch;
@@ -32,12 +32,12 @@ struct player parse_map(char* filename) {
 	// TODO: allow multi-digit coords
 	ch = fgetc(fp);
 	if (!isdigit(ch))
-		quit("Incorrect format. Coordinates have to be digits.");
+		quit(1, "Incorrect format. Coordinates have to be digits.");
 	p.x = (double) ch - 48;
 	fseek(fp, 2, SEEK_SET);
 	ch = fgetc(fp);
 	if (!isdigit(ch))
-		quit("Incorrect format. Coordinates have to be digits.");
+		quit(1, "Incorrect format. Coordinates have to be digits.");
 	p.y = (double) ch - 48;
 	fseek(fp, 4, SEEK_SET);
 
@@ -51,12 +51,12 @@ struct player parse_map(char* filename) {
 			inc_cols = 0;
 		}
 		else if (!isdigit(ch))
-			quit("Incorrect Format. Map file should only contain digits");
+			quit(1, "Incorrect Format. Map file should only contain digits");
 		if (inc_cols)
 			cols++;
 	}
 	if (p.x < 1 || p.x > cols || p.y < 1 || p.y > lines)
-		quit("The player can't start outside the map");
+		quit(1, "The player can't start outside the map");
 	fseek(fp, 4, SEEK_SET);
 	p.map = (int**) malloc(lines * sizeof(int*));
 	for (int i = 0; i < lines; i++)
@@ -64,14 +64,14 @@ struct player parse_map(char* filename) {
 	for (int i = 0, j = 0; j < lines;) {
 		ch = fgetc(fp);
 		if ((j == 0 || j == lines - 1 || i == 0) && ch == '0')
-			quit("The border of map should be solid");
+			quit(1, "The border of the map should be solid");
 		if (ch == '\n') {
 			if (prev_ch == '\n')
-				quit("Map files can't contain empty lines");
+				quit(1, "Map files can't contain empty lines");
 			if (p.map[j][i-1] == 0)
-				quit("The border of map should be solid");
+				quit(1, "The border of the map should be solid");
 			if (i != cols)
-				quit("The map must be rectangular");
+				quit(1, "The map must be rectangular");
 			j++;
 			i = 0;
 		}
@@ -82,7 +82,7 @@ struct player parse_map(char* filename) {
 		prev_ch = ch;
 	}
 	if (p.map[(int) p.y - 1][(int) p.x - 1])
-		quit("The player can't start inside a wall");
+		quit(1, "The player can't start inside a wall");
 	fclose(fp);
 	return p;
 }
