@@ -11,10 +11,12 @@
 
 int main(int argc, char* argv[]) {
 	// parse arguments
+	if (argc == 1)
+		quit("Need to specify a file or argument");
 	struct flags f;
 	f.random = 0;
 	f.color = 0;
-	while ((f.opt = getopt(argc, argv, "r::c")) != -1) {
+	while ((f.opt = getopt(argc, argv, "rc")) != -1) {
 		switch (f.opt) {
 			case 'r':
 				f.random = 1;
