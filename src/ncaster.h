@@ -20,6 +20,6 @@ struct flags {
 
 void init_raycaster();
 
-void quit(int status, char* message, ...);
+void quit(int status, char* message);
 
 #endif

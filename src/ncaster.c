@@ -68,13 +68,10 @@ void init_raycaster() {
 // quit(1, "") when errno is set
 // quit(1, "message") for program defined errors
 // quit(0, "") for normal exit
-void quit(int status, char* message, ...) {
-	// TODO: add formatting
+void quit(int status, char* message) {
+	// TODO: formatting
 	endwin();
-	va_list ap;
-	va_start(ap, message);
 	if (status == EXIT_SUCCESS) {
-		va_end(ap);
 		exit(EXIT_SUCCESS);
 	}
 	else {
@@ -82,9 +79,8 @@ void quit(int status, char* message, ...) {
 			fprintf(stderr, "%s", message);
 			fprintf(stderr, "\n");
 		}
-		if (strcmp(strerror(errno), "Success") != 0)
+		if (errno)
 			perror("");
-		va_end(ap);
 		exit(EXIT_FAILURE);
 	}
 }
