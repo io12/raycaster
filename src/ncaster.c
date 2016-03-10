@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	struct flags f;
 	f.random = 0;
 	f.color = 0;
-	for (; f.opt != 255; f.opt = getopt(argc, argv, "rc")) {
+	for (GETOPT; f.opt != 255; GETOPT) {
 		switch (f.opt) {
 			case 'r':
 				f.random = 1;
@@ -26,6 +26,8 @@ int main(int argc, char* argv[]) {
 			case 'c':
 				f.color = 1;
 				break;
+			default:
+				quit(1, "");
 		}
 	}
 
@@ -65,22 +67,21 @@ void init_raycaster() {
 	init_pair(7, COLOR_CYAN, COLOR_BLACK);
 }
 
-// quit(1, "") when errno is set
-// quit(1, "message") for program defined errors
+// quit(1, "message", ...) for errors
 // quit(0, "") for normal exit
-void quit(int status, char* message) {
-	// TODO: formatting
+void quit(int status, char* message, ...) {
 	endwin();
-	if (status == EXIT_SUCCESS) {
-		exit(EXIT_SUCCESS);
-	}
+
+	if (status == 0)
+		exit(0);
 	else {
 		if (strcmp(message, "")) {
-			fprintf(stderr, "%s", message);
+			va_list ap;
+			va_start(ap, message);
+			vfprintf(stderr, message, ap);
 			fprintf(stderr, "\n");
+			va_end(ap);
 		}
-		if (errno)
-			perror("");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 }

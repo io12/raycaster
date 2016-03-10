@@ -18,8 +18,10 @@ struct flags {
 	bool color;
 };
 
+#define GETOPT f.opt = getopt(argc, argv, "rc")
+
 void init_raycaster();
 
-void quit(int status, char* message);
+void quit(int status, char* message, ...);
 
 #endif
