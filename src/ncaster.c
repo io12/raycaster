@@ -81,7 +81,7 @@ void quit(int status, char* message, ...) {
 	}
 	else {
 		if (strcmp(message, "")) {
-			fprintf(stderr, message);
+			fprintf(stderr, "%s", message);
 			fprintf(stderr, "\n");
 		}
 		if (strcmp(strerror(errno), "Success") != 0)
