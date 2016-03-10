@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <curses.h>
 #include <ctype.h>
+#include <math.h>
 
 #include "ncaster.h"
 
@@ -20,7 +21,7 @@ struct player parse_map(char* filename) {
 
 	// get size of file
 	fseek(fp, 0, SEEK_END);
-	const long fsize = ftell(fp) - 4;
+	long fsize = ftell(fp);
 	if (fsize < 11)
 		quit(1, "Map file too small");
 	rewind(fp);
@@ -29,24 +30,30 @@ struct player parse_map(char* filename) {
 	char prev_ch;
 
 	// get coordinates
-	// TODO: allow multi-digit coords
-	ch = fgetc(fp);
-	if (!isdigit(ch))
-		quit(1, "Incorrect format. Coordinates have to be digits.");
-	p.x = (double) ch - 48;
-	fseek(fp, 2, SEEK_SET);
-	ch = fgetc(fp);
-	if (!isdigit(ch))
-		quit(1, "Incorrect format. Coordinates have to be digits.");
-	p.y = (double) ch - 48;
-	fseek(fp, 4, SEEK_SET);
+	char coord[5];
+	for (int i = 0; i < 5; i++) {
+		ch = fgetc(fp);
+		if (!isdigit(ch) && ch != '.')
+			break;
+		coord[i] = ch;
+	}
+	sscanf(coord, "%lf", &p.x);
+	for (int i = 0; i < 5; i++) {
+		ch = fgetc(fp);
+		if (!isdigit(ch) && ch != '.')
+			break;
+		coord[i] = ch;
+	}
+	sscanf(coord, "%lf", &p.y);
+	fsize -= ftell(fp);
+	long coord_end = ftell(fp);
 
 	int lines = 0;
 	int cols = 0;
 	bool inc_cols = 1;
 	for (int i = 0; i < fsize; i++) {
 		ch = fgetc(fp);
-		if (ch == '\n'){
+		if (ch == '\n') {
 			lines++;
 			inc_cols = 0;
 		}
@@ -57,7 +64,7 @@ struct player parse_map(char* filename) {
 	}
 	if (p.x < 1 || p.x > cols || p.y < 1 || p.y > lines)
 		quit(1, "The player can't start outside the map");
-	fseek(fp, 4, SEEK_SET);
+	fseek(fp, coord_end, SEEK_SET);
 	p.map = (int**) malloc(lines * sizeof(int*));
 	for (int i = 0; i < lines; i++)
 		p.map[i] = (int*) malloc(sizeof(int) * cols);
@@ -81,7 +88,7 @@ struct player parse_map(char* filename) {
 		}
 		prev_ch = ch;
 	}
-	if (p.map[(int) p.y - 1][(int) p.x - 1])
+	if (p.map[(int) round(p.y - 1)][(int) round(p.x - 1)])
 		quit(1, "The player can't start inside a wall");
 	fclose(fp);
 	return p;
