@@ -26,8 +26,6 @@ int main(int argc, char* argv[]) {
 			case 'c':
 				f.color = 1;
 				break;
-			default:
-				quit(1, "");
 		}
 	}
 
