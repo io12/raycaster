@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	struct flags f;
 	f.random = 0;
 	f.color = 0;
-	while ((f.opt = getopt(argc, argv, "rc")) != -1) {
+	for (; f.opt != 255; f.opt = getopt(argc, argv, "rc")) {
 		switch (f.opt) {
 			case 'r':
 				f.random = 1;
