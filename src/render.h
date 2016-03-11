@@ -13,4 +13,10 @@ struct ray {
 
 void gen_frame(struct player p);
 
+void gen_col(struct player p, struct ray r, int col);
+
+void gen_hud();
+
+void gen_crosshairs();
+
 #endif
