@@ -16,15 +16,15 @@ int main(int argc, char* argv[]) {
 	if (argc == 1)
 		quit(1, "Need to specify a file or argument");
 	struct flags f;
-	f.random = 0;
-	f.color = 0;
+	f.r = 0;
+	f.c = 0;
 	for (GETOPT; f.opt != 255; GETOPT) {
 		switch (f.opt) {
 			case 'r':
-				f.random = 1;
+				f.r = 1;
 				break;
 			case 'c':
-				f.color = 1;
+				f.c = 1;
 				break;
 			default:
 				quit(1, "");
@@ -33,8 +33,8 @@ int main(int argc, char* argv[]) {
 
 	// load a map based on the arguments
 	struct player p;
-	if (f.random)
-		p = gen_maze(21, 21, f.color);
+	if (f.r)
+		p = gen_maze(21, 21, f.c);
 	else
 		p = parse_map(argv[1]);
 

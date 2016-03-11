@@ -14,8 +14,8 @@ struct player {
 
 struct flags {
 	char opt;
-	bool random;
-	bool color;
+	bool r;
+	bool c;
 };
 
 #define GETOPT f.opt = getopt(argc, argv, "rc")
