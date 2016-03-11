@@ -57,6 +57,7 @@ void init_raycaster() {
 	noecho();
 	cbreak();
 	keypad(stdscr, 1);
+	nodelay(stdscr, TRUE);
 	curs_set(0);
 	start_color();
 	init_color(COLOR_BLACK, 0, 0, 0);
