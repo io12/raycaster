@@ -18,8 +18,7 @@ int main(int argc, char* argv[]) {
 	struct flags f;
 	f.random = 0;
 	f.color = 0;
-	f.opt = getopt(argc, argv, "rc");;
-	while (f.opt != EOF || f.opt != -1) {
+	for (GETOPT; f.opt != 255; GETOPT) {
 		switch (f.opt) {
 			case 'r':
 				f.random = 1;
@@ -30,7 +29,6 @@ int main(int argc, char* argv[]) {
 			default:
 				quit(1, "");
 		}
-		f.opt = getopt(argc, argv, "rc");;
 	}
 
 	// load a map based on the arguments
