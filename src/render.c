@@ -19,7 +19,8 @@ void gen_frame(struct player p) {
 			r.distance += R_JMP;
 
 			// vision distance
-			if (r.distance > 10) {
+			// shorter if lantern is off
+			if ((r.distance > 10) || (!p.lantern && r.distance > 1.5)) {
 				r.status = -1;
 				break;
 			}
@@ -62,12 +63,12 @@ void gen_frame(struct player p) {
 			if ((ir < f) || (ir > (f + h)) || r.status == -1) {
 				mvaddch(ir, ic, ' ');
 			}
-			else if (r.distance < 2) {
+			else if (r.distance < 2 && p.lantern) {
 				attron(A_STANDOUT);
 				mvaddch(ir, ic, ' ');
 				attroff(A_STANDOUT);
 			}
-			else if (r.distance < 4)
+			else if (r.distance < 4 && p.lantern)
 				mvaddch(ir, ic, W_DARK);
 			else {
 				attron(COLOR_PAIR(1));

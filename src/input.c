@@ -40,6 +40,9 @@ struct player get_input(struct player p) {
 		case '4':
 			p.crosshairs--;
 			break;
+		case '5':
+			p.lantern--;
+			break;
 		default:
 			break;
 	}
