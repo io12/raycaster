@@ -5,7 +5,7 @@
 #include "input.h"
 
 struct player get_input(struct player p) {
-	switch (getch()) {
+	switch (getin()) {
 		case 'q':
 			quit(0, "");
 			break;
@@ -44,4 +44,12 @@ struct player get_input(struct player p) {
 			break;
 	}
 	return p;
+}
+
+int getin() {
+	int ch = getch();
+	if (ch == ERR)
+		return -1;
+	else
+		return ch;
 }
