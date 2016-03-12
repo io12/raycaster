@@ -8,7 +8,9 @@ struct player get_input(struct player p) {
 	switch (getin()) {
 		case 'q':
 			quit(0, "");
-			break;
+		case 'x':
+			// TODO: add saving for player coordinates
+			quit(0, "");
 		case KEY_UP:
 			// collision checking
 			if (!p.map[(int) (p.y + sin(p.angle+p.fov) * P_MV)][(int) (p.x + cos(p.angle+p.fov) * P_MV)]) {

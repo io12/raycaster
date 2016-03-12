@@ -21,6 +21,8 @@ struct flags {
 
 #define GETOPT f.opt = getopt(argc, argv, "rco:")
 
+char* filename;
+
 void init_raycaster();
 
 void quit(int status, char* message, ...);

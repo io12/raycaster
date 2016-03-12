@@ -3,7 +3,7 @@
 
 #include "ncaster.h"
 
-void write_file(struct player p, int map_x, int map_y, const char* filename) {
+void write_map(struct player p, int map_x, int map_y) {
 	FILE* fp = fopen(filename, "w");
 	if (!fp)
 		quit(1, "Error creating file \"%s\" for writing", filename);

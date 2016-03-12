@@ -16,11 +16,11 @@ int main(int argc, char* argv[]) {
 	// parse arguments
 	if (argc == 1)
 		quit(1, "Need to specify a file or argument");
+	struct player p;
 	struct flags f;
 	f.r = 0;
 	f.c = 0;
 	f.o = 0;
-	char* filename;
 	for (GETOPT; f.opt != EOF && f.opt != 255; GETOPT) {
 		switch (f.opt) {
 			case 'r':
@@ -39,12 +39,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	// load a map based on the arguments
-	struct player p;
 	if (f.r) {
 		p = gen_maze(21, 21, f.c);
 		if (f.o) {
 			// output to file
-			write_file(p, 21, 21, filename);
+			write_map(p, 21, 21);
 			quit(0, "");
 		}
 	}
