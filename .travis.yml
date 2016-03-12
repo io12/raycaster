@@ -1,3 +1,5 @@
 language: c
 script: make
-compiler: clang
+compiler:
+ - gcc
+ - clang

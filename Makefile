@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -std=c99 -Og
+CFLAGS = -g -Wall -std=c99
 LDLIBS = -lm -lncurses
 C_FILES = $(wildcard src/*.c)
 H_FILES = $(wildcard src/*.h)
