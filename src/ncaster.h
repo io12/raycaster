@@ -16,9 +16,10 @@ struct flags {
 	char opt;
 	bool r;
 	bool c;
+	bool o;
 };
 
-#define GETOPT f.opt = getopt(argc, argv, "rc")
+#define GETOPT f.opt = getopt(argc, argv, "rco:")
 
 void init_raycaster();
 

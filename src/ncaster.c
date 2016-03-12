@@ -10,6 +10,7 @@
 #include "parse.h"
 #include "render.h"
 #include "gen_maze.h"
+#include "write_file.h"
 
 int main(int argc, char* argv[]) {
 	// parse arguments
@@ -18,13 +19,19 @@ int main(int argc, char* argv[]) {
 	struct flags f;
 	f.r = 0;
 	f.c = 0;
-	for (GETOPT; f.opt != 255; GETOPT) {
+	f.o = 0;
+	char* filename;
+	for (GETOPT; f.opt != EOF && f.opt != 255; GETOPT) {
 		switch (f.opt) {
 			case 'r':
 				f.r = 1;
 				break;
 			case 'c':
 				f.c = 1;
+				break;
+			case 'o':
+				f.o = 1;
+				filename = strdup(optarg);
 				break;
 			default:
 				quit(1, "");
@@ -33,8 +40,16 @@ int main(int argc, char* argv[]) {
 
 	// load a map based on the arguments
 	struct player p;
-	if (f.r)
+	if (f.r) {
 		p = gen_maze(21, 21, f.c);
+		if (f.o) {
+			// output to file
+			write_file(p, 21, 21, filename);
+			quit(0, "");
+		}
+	}
+	else if (f.o)
+		quit(1, "Nothing to write to \"%s\"", filename);
 	else
 		p = parse_map(argv[1]);
 

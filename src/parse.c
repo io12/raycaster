@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <curses.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <math.h>
 
@@ -30,15 +30,15 @@ struct player parse_map(char* filename) {
 	char prev_ch;
 
 	// get coordinates
-	char coord[5];
-	for (int i = 0; i < 5; i++) {
+	char coord[10];
+	for (int i = 0; i < 10; i++) {
 		ch = fgetc(fp);
 		if (!isdigit(ch) && ch != '.')
 			break;
 		coord[i] = ch;
 	}
 	sscanf(coord, "%lf", &p.x);
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 10; i++) {
 		ch = fgetc(fp);
 		if (!isdigit(ch) && ch != '.')
 			break;

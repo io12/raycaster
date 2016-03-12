@@ -1,10 +1,11 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
-#include <curses.h>
 
 #include "ncaster.h"
 #include "stack.h"
 
+// TODO: add variable sizes
 struct player gen_maze(const int x, const int y, const bool color) {
 	s.top = -1;
 	struct player p;
@@ -32,10 +33,10 @@ struct player gen_maze(const int x, const int y, const bool color) {
 	// pick a starting cell
 	int cx = ((rand() % (x - 1) / 2) + 1) * 2 - 1;
 	int cy = ((rand() % (y - 1) / 2) + 1) * 2 - 1;
-	int visited = 1, nb, dirs[4];
+	int visited = 1, nb = 0, dirs[4];
 	p.map[cy][cx] = 0;
-	p.x = cx;
-	p.y = cy;
+	p.x = cx + 1;
+	p.y = cy + 1;
 
 	// while there are unvisited cells
 	while (visited < (((y - 1) / 2) * ((x - 1) / 2))) {
