@@ -27,7 +27,7 @@ struct player parse_map(char* filename) {
 	rewind(fp);
 
 	char ch;
-	char prev_ch;
+	char prev_ch = 0;
 
 	// get coordinates
 	char coord[10];
