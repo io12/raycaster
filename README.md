@@ -12,11 +12,11 @@ Read a map from a file
 
 `./ncaster.out [file]`
 
-Generate a random map [with color]
+Generate a random [colored] map
 
 `./ncaster.out -r[c]`
 
-Write a random map to a file
+Write a random [colored] map to a file
 
 `./ncaster.out -r[c]o [file]`
 
