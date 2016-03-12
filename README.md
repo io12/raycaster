@@ -46,6 +46,9 @@ In addition to the explanation below, you can look at `example.map` to see an ex
 
 The first line must contain two doubles to store the starting player coordinates.
 These doubles must be separated by a non-digit, non-period, non-newline character.
+
+### Map cells
+
 The following lines are just a two dimensional array of digits from 0-7.
 These digits represent cells on the map and their value represents their state.
 The meaning of the values of the cells is listed below.
