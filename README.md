@@ -53,12 +53,19 @@ The meaning of the values of the cells is listed below.
 #### Map cell states
 
 `0`: empty, no wall
+
 `1`: white wall
+
 `2`: red wall
+
 `3`: green wall
+
 `4`: yellow wall
+
 `5`: blue wall
+
 `6`: magenta wall
+
 `7`: cyan wall
 
 Notice how the colors resemble the color palette of a 3 bit color terminal.
