@@ -1,4 +1,3 @@
-CC = gcc
 CFLAGS = -g -Wall -std=c99 -Og
 LDLIBS = -lm -lncurses
 C_FILES = $(wildcard src/*.c)
