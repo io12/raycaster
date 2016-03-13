@@ -13,15 +13,15 @@ struct player get_input(struct player p) {
 			quit(0, "");
 		case KEY_UP:
 			// collision checking
-			if (!p.map[(int) (p.y + sin(p.angle+p.fov) * P_MV)][(int) (p.x + cos(p.angle+p.fov) * P_MV)]) {
-				p.x += cos(p.angle+p.fov) * P_MV;
-				p.y += sin(p.angle+p.fov) * P_MV;
+			if (!p.map[(int) (p.y + sin(p.angle) * P_MV)][(int) (p.x + cos(p.angle) * P_MV)]) {
+				p.x += cos(p.angle) * P_MV;
+				p.y += sin(p.angle) * P_MV;
 			}
 			break;
 		case KEY_DOWN:
-			if (!p.map[(int) (p.y - sin(p.angle+p.fov) * P_MV)][(int) (p.x - cos(p.angle+p.fov) * P_MV)]) {
-				p.x -= cos(p.angle+p.fov) * P_MV;
-				p.y -= sin(p.angle+p.fov) * P_MV;
+			if (!p.map[(int) (p.y - sin(p.angle) * P_MV)][(int) (p.x - cos(p.angle) * P_MV)]) {
+				p.x -= cos(p.angle) * P_MV;
+				p.y -= sin(p.angle) * P_MV;
 			}
 			break;
 		case KEY_RIGHT:

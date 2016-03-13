@@ -13,7 +13,7 @@ void gen_frame(struct player p) {
 		r.y = p.y;
 		r.distance = 0;
 		while(1) {
-			r.angle = ((p.fov / 2) + p.angle) + (ic * (p.fov / COLS));
+			r.angle = (p.angle - (p.fov / 2)) + (ic * (p.fov / COLS));
 			r.x += cos(r.angle) * R_JMP;
 			r.y += sin(r.angle) * R_JMP;
 			r.distance += R_JMP;
