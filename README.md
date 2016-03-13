@@ -4,7 +4,9 @@ just a basic raycaster in ncurses
 
 ![screenshot](https://raw.githubusercontent.com/io12/raycaster/master/screenshot.png)
 
-This project is dead. Don't expect updates.
+This project is dead.
+Don't expect updates.
+Look to [io12/run](https://github.com/io12/run) for an in development game using this raycaster's engine.
 
 ## Usage
 
