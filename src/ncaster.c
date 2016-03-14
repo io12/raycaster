@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <curses.h>
 #include <unistd.h>
-#include <errno.h>
 #include <string.h>
 
 #include "ncaster.h"
